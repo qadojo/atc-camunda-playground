@@ -1,0 +1,23 @@
+camunda.bpm:
+  admin-user:
+    id: admin
+    password: 1
+    firstName: Admin
+  filter:
+    create: All tasks
+
+
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/camunda
+    username: postgres
+    password: postgres

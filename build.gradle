@@ -1,0 +1,56 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.14.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.asciidoctor.convert' version '1.5.8'
+	id 'java'
+}
+
+group = 'ru.qadojo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:3.4.2'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql:42.2.1'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.camunda.bpm.assert:camunda-bpm-assert:5.0.0'
+	testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
+	testImplementation 'org.camunda.bpm.extension.mockito:camunda-bpm-mockito:4.12.0'
+
+	testRuntimeOnly 'com.h2database:h2'
+}
+
+test {
+	outputs.dir snippetsDir
+//	useJUnitPlatform()
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	dependsOn test
+}
