@@ -21,6 +21,7 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
+	set('springCloudVersion', "Greenwich.SR5")
 }
 
 dependencies {
@@ -37,6 +38,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.camunda.bpm.assert:camunda-bpm-assert:5.0.0'
 	testImplementation 'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.0.0'
@@ -47,10 +49,15 @@ dependencies {
 
 test {
 	outputs.dir snippetsDir
-//	useJUnitPlatform()
 }
 
 asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

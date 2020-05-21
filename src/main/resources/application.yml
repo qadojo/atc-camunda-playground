@@ -6,6 +6,10 @@ camunda.bpm:
   filter:
     create: All tasks
 
+cats:
+  producer:
+    host: http://some-real-cats-factory
+    port: 80
 
 
 spring:
